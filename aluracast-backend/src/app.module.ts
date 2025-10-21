@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 import { EpisodesModule } from './episodes/episodes.module';
 import { ServeStaticModule } from '@nestjs/serve-static'; 
 import { join } from 'path';
+import { UsersModule } from './users/users.module';
 
 @Module({
   imports: [
@@ -10,6 +11,7 @@ import { join } from 'path';
       serveRoot: '/', 
     }),
     EpisodesModule,
+    UsersModule,
   ],
   controllers: [],
   providers: [],
