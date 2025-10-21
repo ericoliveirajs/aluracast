@@ -1,0 +1,11 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans&display=swap');
+@import url('https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css');
+
+@import "./base.css";
+@import "./grid/index.css";
+@import "./grid/cartao.css";
+@import "./grid/secao.css";
+@import "./grid/menu.css";
+@import "./grid/navbar.css";
+@import "./grid/rodape.css";
+@import "./responsivo.css";
