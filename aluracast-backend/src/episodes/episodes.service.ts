@@ -1,8 +1,7 @@
-
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
+import { InjectRepository } from '@nestjs/typeorm'; 
 import { Repository } from 'typeorm';                 
-import { Episode } from './entities/episode.entity';
+import { Episode } from './entities/episode.entity';   
 import { CreateEpisodeDto } from './dto/create-episode.dto';
 import { UpdateEpisodeDto } from './dto/update-episode.dto';
 
@@ -59,7 +58,6 @@ export class EpisodesService {
 
     async update(id: number, updateEpisodeDto: UpdateEpisodeDto): Promise<Episode> {
         const episode = await this.findOne(id);
-        
         this.episodeRepository.merge(episode, updateEpisodeDto);
         return this.episodeRepository.save(episode);
     }
