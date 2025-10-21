@@ -6,10 +6,8 @@ import { useState } from 'react';
 import Layout from '@/components/Layout'; 
 import { Episode } from '@interfaces/episode.interface'; 
 
-// Use a porta correta: 3000 para o backend, 3001 para o frontend
 const API_URL = 'http://localhost:3000';
 
-// 1. Defina o tipo da props que a função Home receberá
 interface HomeProps {
   hipsters: Episode[]; 
   indicados: Episode[]; 
@@ -17,7 +15,6 @@ interface HomeProps {
   error: boolean;
 }
 
-// 2. Componente para renderizar um cartão de episódio dinâmico
 const EpisodeCard: React.FC<{ episode: Episode, onSelect: (ep: Episode) => void }> = ({ episode, onSelect }) => (
   <li className="cartao" key={episode.id} onClick={() => onSelect(episode)}>
   
