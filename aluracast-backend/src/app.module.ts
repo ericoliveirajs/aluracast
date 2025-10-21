@@ -1,5 +1,3 @@
-// aluracast-backend/src/app.module.ts
-
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm'; // 👈 NOVO
 import { EpisodesModule } from './episodes/episodes.module';
@@ -8,15 +6,15 @@ import { join } from 'path';
 
 @Module({
   imports: [
-    TypeOrmModule.forRoot({ // 👈 CONEXÃO MYSQL
+    TypeOrmModule.forRoot({
       type: 'mysql', 
       host: 'localhost', 
-      port: 3306, // Porta 3306, confirmada!
+      port: 3306,
       username: 'root', 
       password: 'root', 
-      database: 'aluracastdb', // Nome do Banco de Dados
-      entities: [__dirname + '/**/*.entity{.ts,.js}'], // Onde suas Entidades estarão
-      synchronize: true, // Cria tabelas automaticamente (apenas para DEV)
+      database: 'aluracastdb',
+      entities: [__dirname + '/**/*.entity{.ts,.js}'],
+      synchronize: true,
     }),
     ServeStaticModule.forRoot({
       rootPath: join(process.cwd(), 'public'), 
