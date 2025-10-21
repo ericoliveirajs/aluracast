@@ -2,7 +2,6 @@
 
 <img width="1919" height="952" alt="image" src="https://github.com/user-attachments/assets/22800555-03cb-46f7-bb17-16dea7089d20" />
 
-
 ## Visão Geral do Projeto
 
 O AluraCast é uma plataforma web de streaming de podcasts desenvolvida para demonstrar proficiência na stack JavaScript, abrangendo desde o desenvolvimento de APIs robustas com NestJS até a construção de interfaces de usuário reativas e otimizadas com Next.js e React.
@@ -16,16 +15,20 @@ Este projeto simula o consumo de dados de um serviço de Back-end, aplicando boa
 | :--- | :--- | :--- |
 | **Frontend** | **Next.js (React)** | SSR, Performance, Roteamento, Componentização. |
 | **Backend** | **NestJS (Node.js/TypeScript)** | Arquitetura Modular, Injeção de Dependência, Padrão DTO/Service. |
+| **Banco de Dados** | **MySQL** | Persistência de Dados, Migração de MOCK para DB Relacional. |
+| **ORM** | **TypeORM** | Mapeamento Objeto-Relacional, Uso de Repositórios. |
 | **Estilização** | CSS Puro (Metodologia BEM/OO-CSS) | Manutenibilidade e Escalabilidade de código CSS. |
 
 ## Decisões Arquiteturais e Qualidade de Código
 
 Este projeto não é apenas um front-end estático; ele demonstra a capacidade de projetar uma aplicação desacoplada e eficiente.
 
-### 1. Desacoplamento de Dados e Serviço (Back-end)
+### 1. **MIGRAÇÃO DE PERSISTÊNCIA: MOCK para MySQL (TypeORM)** 👈 **DESTAQUE**
 
-* **API RESTful Simulado:** Foi construído um Back-end dedicado em **NestJS** para simular o serviço de dados. As playlists (`hipsters-ponto-tech`, `indicados-para-voce`, etc.) são fornecidas através de rotas REST.
-* **MOCK de Dados Estratégico:** A simulação de dados (*MOCK*) está centralizada no `EpisodesService`, garantindo que o Back-end atue como a **fonte única de verdade**, desacoplando totalmente a lógica de visualização do Front-end.
+* **API com Persistência Real:** O Back-end não utiliza mais dados estáticos (MOCK). A API agora busca dados diretamente de um banco de dados **MySQL**.
+* **TypeORM:** Implementação do **TypeORM** para mapeamento Objeto-Relacional (ORM) da entidade `Episode`.
+* **Data Seeding (População Inicial):** Uso do `OnModuleInit` no NestJS para executar um *Seed* (população inicial) dos episódios no banco de dados na primeira inicialização, garantindo que a aplicação esteja funcional imediatamente.
+* **Assincronicidade:** Refatoração de todos os serviços e *controllers* de dados para operar de forma assíncrona (`async/await`), utilizando o padrão de *Repository* do TypeORM.
 
 ### 2. Otimização de Performance (Front-end)
 
@@ -41,9 +44,17 @@ Este projeto não é apenas um front-end estático; ele demonstra a capacidade d
 
 ## 🛠️ Como Rodar o Projeto Localmente
 
-Para iniciar o AluraCast, você precisará de dois terminais:
+Para iniciar o AluraCast, você precisará de três componentes rodando simultaneamente:
 
-### 1. Iniciar o Backend e FrontEnd (NestJS)
+### 1. Iniciar o Servidor MySQL
+
+O Back-end agora depende de uma instância do MySQL rodando.
+
+* **Pré-requisito:** Instale o MySQL Server (Versão 8.0+ recomendada).
+* **Criação do DB:** Crie um banco de dados chamado **`aluracastdb`** (o TypeORM fará o resto).
+* **Inicie o Servidor:** Use o MySQL Workbench ou inicie o servidor MySQL localmente (e garanta que esteja na porta padrão **3306**).
+
+### 2. Iniciar o Backend (NestJS)
 
 ```bash
 # Navegue até a pasta do projeto backend (aluracast-backend)
@@ -51,6 +62,7 @@ npm install
 npm run start:dev 
 
 # O servidor estará rodando em http://localhost:3000
+# Na primeira execução, o NestJS irá criar a tabela 'episode' e rodar o Data Seed.
 
 # Navegue até a pasta do projeto frontend (aluracast-frontend)
 npm install
