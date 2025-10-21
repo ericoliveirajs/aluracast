@@ -10,6 +10,7 @@ import { EpisodesModule } from './episodes/episodes.module';
 import { UsersModule } from './users/users.module';
 // ⚠️ NOVO IMPORT: A Entidade User que criamos
 import { User } from './users/entities/user.entity';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -31,6 +32,7 @@ import { User } from './users/entities/user.entity';
     }),
     EpisodesModule,
     UsersModule,
+    AuthModule,
   ],
   controllers: [],
   providers: [],
