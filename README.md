@@ -1,8 +1,12 @@
 # AluraCast: Plataforma de Streaming de Podcast (Stack JavaScript Full)
 
+<img width="1919" height="952" alt="image" src="https://github.com/user-attachments/assets/22800555-03cb-46f7-bb17-16dea7089d20" />
+
+
 ## Visão Geral do Projeto
 
 O AluraCast é uma plataforma web de streaming de podcasts desenvolvida para demonstrar proficiência na stack JavaScript, abrangendo desde o desenvolvimento de APIs robustas com NestJS até a construção de interfaces de usuário reativas e otimizadas com Next.js e React.
+Foi utilizado um projeto base criado no início da minha carreira que utilizava somente HTML e CSS puro, repositório de referência: https://github.com/ericoliveirajs/alura_play
 
 Este projeto simula o consumo de dados de um serviço de Back-end, aplicando boas práticas de arquitetura e performance.
 
