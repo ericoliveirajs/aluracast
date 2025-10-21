@@ -10,6 +10,16 @@ import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
+    TypeOrmModule.forRoot({
+      type: 'mysql', 
+      host: 'localhost', 
+      port: 3306,
+      username: 'root', 
+      password: 'root', 
+      database: 'aluracastdb',
+      entities: [__dirname + '/**/*.entity{.ts,.js}'],
+      synchronize: true,
+    }),
     ServeStaticModule.forRoot({
       rootPath: join(process.cwd(), 'public'),
       serveRoot: '/',

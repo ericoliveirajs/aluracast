@@ -20,7 +20,7 @@ import { Episode } from './entities/episode.entity'; // 👈 Usamos a Entidade T
 
 @Controller('episodes')
 export class EpisodesController {
-  constructor(private readonly episodesService: EpisodesService) {}
+  constructor(private readonly episodesService: EpisodesService) { }
 
   // ⚠️ ROTA PROTEGIDA E AGORA ASYNC
   @UseGuards(JwtAuthGuard) 
