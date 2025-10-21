@@ -19,6 +19,6 @@ export class Episode {
   @Column({ length: 50 })
   playlistKey: string;
 
-  @Column('date')
+  @Column({ type: 'date', nullable: true })
   date: string;
 }
