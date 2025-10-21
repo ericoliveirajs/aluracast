@@ -6,6 +6,7 @@ import { JwtModule } from '@nestjs/jwt';
 import { UsersModule } from '../users/users.module'; // 👈 NOVO IMPORT
 import { AuthService } from './auth.service';
 import { AuthController } from './auth.controller';
+import { JwtStrategy } from './strategy/jwt.strategy';
 
 @Module({
   imports: [
@@ -21,7 +22,8 @@ import { AuthController } from './auth.controller';
       signOptions: { expiresIn: '60m' }, 
     }),
   ],
-  providers: [AuthService],
+  providers: [AuthService, JwtStrategy],
   controllers: [AuthController],
+  exports: [JwtModule, PassportModule, AuthService],
 })
 export class AuthModule {}
