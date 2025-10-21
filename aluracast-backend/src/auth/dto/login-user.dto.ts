@@ -1,5 +1,3 @@
-// aluracast-backend/src/auth/dto/login-user.dto.ts
-
 import { IsEmail, IsNotEmpty, MinLength } from 'class-validator';
 
 export class LoginUserDto {

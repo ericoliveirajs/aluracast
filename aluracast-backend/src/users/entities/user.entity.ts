@@ -1,8 +1,6 @@
-// aluracast-backend/src/users/entities/user.entity.ts
-
 import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
 
-@Entity() // ⚠️ O nome padrão da tabela será 'user'
+@Entity()
 export class User {
   @PrimaryGeneratedColumn()
   id: number;

@@ -1,5 +1,3 @@
-// aluracast-backend/src/episodes/episodes.service.ts
-
 import { Injectable } from '@nestjs/common';
 import { Episode } from './interfaces/episode.interface';
 import { CreateEpisodeDto } from './dto/create-episode.dto';
@@ -35,10 +33,6 @@ export class EpisodesService {
     ],
   };
 
-  // ---------------------------------------------
-  // MÉTODOS EXISTENTES (GET)
-  // ---------------------------------------------
-
   findAll(): Episode[] {
     const allEpisodes = Object.values(this.playlists).flat();
     return allEpisodes;
@@ -52,17 +46,13 @@ export class EpisodesService {
     return this.playlists[key.toLowerCase()] || [];
   }
 
-  // ---------------------------------------------
-  // NOVOS MÉTODOS (CRUD)
-  // ---------------------------------------------
-
+ 
   create(createEpisodeDto: CreateEpisodeDto): Episode {
-    // Simulação de criação com valores padrão para 'image' e 'link'
     const newEpisode = {
       id: Math.floor(Math.random() * 1000) + 1,
       date: new Date().toISOString().split('T')[0],
-      image: '/images/simulado.svg', // Adicionado para satisfazer a interface Episode
-      link: '#',                       // Adicionado para satisfazer a interface Episode
+      image: '/images/simulado.svg',
+      link: '#',
       ...createEpisodeDto,
     } as Episode;
 
@@ -70,7 +60,6 @@ export class EpisodesService {
   }
 
   update(id: number, updateEpisodeDto: UpdateEpisodeDto): Episode {
-    // Simulação de busca e atualização
     const existingEpisode = {
       id,
       title: 'Título Simulado Antigo',
@@ -85,7 +74,6 @@ export class EpisodesService {
   }
 
   remove(id: number) {
-    // Simulação de remoção
     return { id, message: `Episódio #${id} removido com sucesso.` };
   }
 }
