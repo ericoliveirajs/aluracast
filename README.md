@@ -11,35 +11,41 @@ Este projeto simula o consumo de dados de um serviço de Back-end, aplicando boa
 
 ## 🚀 Stack Tecnológica
 
-| Componente | Tecnologia | Foco em Entrevista |
+| Componente | Tecnologia | Detalhe |
 | :--- | :--- | :--- |
 | **Frontend** | **Next.js (React)** | SSR, Performance, Roteamento, Componentização. |
 | **Backend** | **NestJS (Node.js/TypeScript)** | Arquitetura Modular, Injeção de Dependência, Padrão DTO/Service. |
 | **Banco de Dados** | **MySQL** | Persistência de Dados, Migração de MOCK para DB Relacional. |
 | **ORM** | **TypeORM** | Mapeamento Objeto-Relacional, Uso de Repositórios. |
+| **Autenticação** | **JWT (Passport.js)** | Segurança de API, Geração e Validação de Tokens de Acesso. | 👈 **NOVO DESTAQUE**
 | **Estilização** | CSS Puro (Metodologia BEM/OO-CSS) | Manutenibilidade e Escalabilidade de código CSS. |
 
 ## Decisões Arquiteturais e Qualidade de Código
 
 Este projeto não é apenas um front-end estático; ele demonstra a capacidade de projetar uma aplicação desacoplada e eficiente.
 
-### 1. **MIGRAÇÃO DE PERSISTÊNCIA: MOCK para MySQL (TypeORM)** 👈 **DESTAQUE**
+### 1. **AUTENTICAÇÃO E SEGURANÇA (JWT/Passport)** 👈 **DESTAQUE PRINCIPAL**
 
-* **API com Persistência Real:** O Back-end não utiliza mais dados estáticos (MOCK). A API agora busca dados diretamente de um banco de dados **MySQL**.
-* **TypeORM:** Implementação do **TypeORM** para mapeamento Objeto-Relacional (ORM) da entidade `Episode`.
+* **API Protegida:** Implementação completa do fluxo de Autenticação utilizando **JSON Web Tokens (JWT)** e a biblioteca **Passport.js**.
+* **Estratégia de Login:** O módulo `Auth` realiza a validação de credenciais, o *hashing* de senhas (bcrypt) e a geração do Token de Acesso na rota `/auth/login`.
+* **Guarda de Rotas (Guards):** Aplicação do `JwtAuthGuard` nas rotas de manipulação de dados (`POST`, `PATCH`, `DELETE` do `EpisodesController`), garantindo que apenas usuários com um token válido e ativo possam modificar recursos.
+* **Persistência de Usuários:** O módulo `Users` gerencia o registro de novos usuários e a persistência no MySQL via TypeORM, essencial para o processo de login.
+
+### 2. **MIGRAÇÃO DE PERSISTÊNCIA: MOCK para MySQL (TypeORM)** * **API com Persistência Real:** O Back-end não utiliza mais dados estáticos (MOCK). A API agora busca dados diretamente de um banco de dados **MySQL**.
+* **TypeORM:** Implementação do **TypeORM** para mapeamento Objeto-Relacional (ORM) das entidades (`User`, `Episode`).
 * **Data Seeding (População Inicial):** Uso do `OnModuleInit` no NestJS para executar um *Seed* (população inicial) dos episódios no banco de dados na primeira inicialização, garantindo que a aplicação esteja funcional imediatamente.
 * **Assincronicidade:** Refatoração de todos os serviços e *controllers* de dados para operar de forma assíncrona (`async/await`), utilizando o padrão de *Repository* do TypeORM.
 
-### 2. Otimização de Performance (Front-end)
+### 3. Otimização de Performance (Front-end)
 
 * **Server-Side Rendering (SSR):** A renderização dos dados das playlists não é feita pelo navegador (Client-Side Rendering), mas sim através do **`getServerSideProps`** do Next.js.
-    * **Vantagem:** Isso garante que o conteúdo seja pré-renderizado no servidor, melhorando o **SEO (Search Engine Optimization)** e o **Time to Content** (velocidade de carregamento da página).
+    * **Vantagem:** Isso garante que o conteúdo seja pré-renderizado no servidor, melhorando o **SEO (Search Engine Optimization)** e o **Time to Content** (velocidade de carregamento da página).
 * **Componentização e Reutilização:** O cartão de episódio (`EpisodeCard`) foi criado como um componente funcional separado, garantindo alta **reutilização** e clareza no `Home`.
 
-### 3. Resolução de Problemas Complexos (Debugging)
+### 4. Resolução de Problemas Complexos (Debugging)
 
 * **Gestão de Comunicação entre Portas:** O projeto exigiu a configuração correta de comunicação entre a porta `3001` (Front-end) e a porta `3000` (Back-end).
-    * **Solução:** Implementação do **CORS (Cross-Origin Resource Sharing)** no Back-end para permitir a troca de dados, demonstrando compreensão de protocolos de segurança de rede.
+    * **Solução:** Implementação do **CORS (Cross-Origin Resource Sharing)** no Back-end para permitir a troca de dados, demonstrando compreensão de protocolos de segurança de rede.
 * **Tratamento de Caminhos de Imagem:** A URL de mídia foi resolvida através da concatenação da `API_URL` (`http://localhost:3000`) com o caminho relativo (`/images/...`), garantindo que o navegador busque os arquivos no servidor Back-end correto.
 
 ## 🛠️ Como Rodar o Projeto Localmente
@@ -54,19 +60,19 @@ O Back-end agora depende de uma instância do MySQL rodando.
 * **Criação do DB:** Crie um banco de dados chamado **`aluracastdb`** (o TypeORM fará o resto).
 * **Inicie o Servidor:** Use o MySQL Workbench ou inicie o servidor MySQL localmente (e garanta que esteja na porta padrão **3306**).
 
-### 2. Iniciar o Backend (NestJS)
+### 2. Iniciar o Projeto (NestJS e Next.js)
 
 ```bash
 # Navegue até a pasta do projeto backend (aluracast-backend)
 npm install
-npm run start:dev 
+npm run start:dev 
 
 # O servidor estará rodando em http://localhost:3000
-# Na primeira execução, o NestJS irá criar a tabela 'episode' e rodar o Data Seed.
+# Na primeira execução, o NestJS irá criar as tabelas 'user' e 'episode' e rodar o Data Seed.
 
 # Navegue até a pasta do projeto frontend (aluracast-frontend)
 npm install
 # Inicie na porta 3001 para evitar conflito com o Backend (3000)
-npm run dev -- --turbo --port 3001 
+npm run dev -- --turbo --port 3001 
 
 # Acesse o projeto em http://localhost:3001
