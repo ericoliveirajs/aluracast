@@ -1,5 +1,3 @@
-// pages/index.tsx (FINAL E ROBUSTO)
-
 import Head from 'next/head';
 import { GetServerSideProps } from 'next';
 import { useState } from 'react';
