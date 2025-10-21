@@ -1,9 +1,13 @@
+// aluracast-backend/src/episodes/episodes.service.ts
+
 import { Injectable } from '@nestjs/common';
 import { Episode } from './interfaces/episode.interface';
+import { CreateEpisodeDto } from './dto/create-episode.dto';
+import { UpdateEpisodeDto } from './dto/update-episode.dto';
 
 @Injectable()
 export class EpisodesService {
-  
+
   private readonly playlists: { [key: string]: Episode[] } = {
     'hipsters-ponto-tech': [
       { id: 10, title: 'Github e nossas Funcionalidades Preferidas', description: 'Hipsters Ponto Tech', image: '/images/hipsters-3.svg', link: '#', date: '2023-01-01' },
@@ -31,15 +35,57 @@ export class EpisodesService {
     ],
   };
 
+  // ---------------------------------------------
+  // MÉTODOS EXISTENTES (GET)
+  // ---------------------------------------------
+
   findAll(): Episode[] {
-    return []; 
+    const allEpisodes = Object.values(this.playlists).flat();
+    return allEpisodes;
   }
 
   findLatest(): Episode {
     return { id: 0, title: 'Player Vazio', description: '', image: '/images/hipsters-9.svg', link: '#', date: '' };
   }
-  
+
   findPlaylist(key: string): Episode[] {
     return this.playlists[key.toLowerCase()] || [];
+  }
+
+  // ---------------------------------------------
+  // NOVOS MÉTODOS (CRUD)
+  // ---------------------------------------------
+
+  create(createEpisodeDto: CreateEpisodeDto): Episode {
+    // Simulação de criação com valores padrão para 'image' e 'link'
+    const newEpisode = {
+      id: Math.floor(Math.random() * 1000) + 1,
+      date: new Date().toISOString().split('T')[0],
+      image: '/images/simulado.svg', // Adicionado para satisfazer a interface Episode
+      link: '#',                       // Adicionado para satisfazer a interface Episode
+      ...createEpisodeDto,
+    } as Episode;
+
+    return newEpisode;
+  }
+
+  update(id: number, updateEpisodeDto: UpdateEpisodeDto): Episode {
+    // Simulação de busca e atualização
+    const existingEpisode = {
+      id,
+      title: 'Título Simulado Antigo',
+      description: 'Descrição Antiga',
+      playlistKey: 'hipsters-ponto-tech',
+      link: '#',
+      image: '/images/simulado.svg',
+      date: '2023-01-01',
+    } as Episode;
+
+    return { ...existingEpisode, ...updateEpisodeDto };
+  }
+
+  remove(id: number) {
+    // Simulação de remoção
+    return { id, message: `Episódio #${id} removido com sucesso.` };
   }
 }
