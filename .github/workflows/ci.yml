@@ -1,0 +1,62 @@
+name: CI Aluracast (Backend & Frontend)
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main, develop ]
+
+jobs:
+  backend-ci:
+    name: Backend (Nest.js) CI
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout (Baixar o código)
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js 18.x
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18.x
+          cache: 'npm'
+          cache-dependency-path: aluracast-backend/package-lock.json
+
+      - name: (Backend) Instalar Dependências
+        run: npm install
+        working-directory: ./aluracast-backend
+
+      - name: (Backend) Build
+        run: npm run build
+        working-directory: ./aluracast-backend
+
+      - name: (Backend) Rodar Testes
+        run: npm test
+        working-directory: ./aluracast-backend
+
+  frontend-ci:
+    name: Frontend CI
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout (Baixar o código)
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js 18.x
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18.x
+          cache: 'npm'
+          cache-dependency-path: aluracast-frontend/package-lock.json
+
+      - name: (Frontend) Instalar Dependências
+        run: npm install
+        working-directory: ./aluracast-frontend
+
+      - name: (Frontend) Build
+        run: npm run build
+        working-directory: ./aluracast-frontend
+      
+      # - name: (Frontend) Rodar Testes
+      #   run: npm test
+      #   working-directory: ./aluracast-frontend
