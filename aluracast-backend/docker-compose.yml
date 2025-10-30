@@ -1,0 +1,20 @@
+version: '3.8'
+
+services:
+  db_aluracast:
+    image: mysql:8.0
+    container_name: aluracast_mysql_db
+    restart: unless-stopped
+    environment:
+      # Isso define a senha do 'root'
+      MYSQL_ROOT_PASSWORD: root  
+      # Isso cria o banco de dados 'aluracast' na inicialização
+      MYSQL_DATABASE: aluracastdb
+    ports:
+      # Isso expõe o banco na porta 3306
+      - "3306:3306" 
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+volumes:
+  mysql_data:
