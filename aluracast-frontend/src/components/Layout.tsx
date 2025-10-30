@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { Episode } from '@interfaces/episode.interface'; 
 
-const API_URL = 'http://localhost:3000';
+const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000';
 
 interface LayoutProps {
   children: React.ReactNode;
