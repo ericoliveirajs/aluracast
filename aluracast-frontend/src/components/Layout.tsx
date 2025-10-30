@@ -1,9 +1,9 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
-const API_URL = 'http://localhost:3000';
-
-
+import { useRouter } from 'next/router';
 import { Episode } from '@interfaces/episode.interface'; 
+
+const API_URL = 'http://localhost:3000';
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -11,6 +11,22 @@ interface LayoutProps {
 }
 
 const Layout: React.FC<LayoutProps> = ({ children, latestEpisode }) => {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const router = useRouter();
+
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      setIsLoggedIn(true);
+    }
+  }, []);
+
+  const handleLogout = () => {
+    localStorage.removeItem('token');
+    setIsLoggedIn(false);
+    router.push('/login');
+  };
+
   return (
     <>
       <header className="cabecalho container">
@@ -43,12 +59,28 @@ const Layout: React.FC<LayoutProps> = ({ children, latestEpisode }) => {
         
         <h3 className="menu-lateral__playlist">Playlists</h3>
         <ul>
-          <li className="menu-lateral__link menu-lateral__link--playlist">
-              <Link href="#">Criar Playlist</Link>
-          </li>
-          <li className="menu-lateral__link menu-lateral__link--podcasts">
-              <Link href="#">Podcasts salvos</Link>
-          </li>
+          {isLoggedIn ? (
+            <>
+              <li className="menu-lateral__link menu-lateral__link--playlist">
+                  <Link href="#">Criar Playlist</Link>
+              </li>
+              <li className="menu-lateral__link menu-lateral__link--podcasts">
+                  <Link href="#">Podcasts salvos</Link>
+              </li>
+              <li className="menu-lateral__link">
+                <button 
+                  onClick={handleLogout} 
+                  style={{ background: 'none', border: 'none', color: 'inherit', cursor: 'pointer', padding: 0, fontSize: 'inherit' }}
+                >
+                  Sair
+                </button>
+              </li>
+            </>
+          ) : (
+            <li className="menu-lateral__link">
+                <Link href="/login">Fazer Login</Link>
+            </li>
+          )}
         </ul>
       </aside>
 

@@ -2,7 +2,6 @@ import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { EpisodesService } from './episodes.service';
 import { EpisodesController } from './episodes.controller';
-import { TypeOrmModule } from '@nestjs/typeorm';
 import { Episode } from './entities/episode.entity';
 import { AuthModule } from '../auth/auth.module';
 
