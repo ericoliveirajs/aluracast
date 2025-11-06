@@ -73,7 +73,11 @@ const Layout: React.FC<LayoutProps> = ({ children, latestEpisode }) => {
                 <Link href="#">Busca</Link>
             </li>
             <li className="menu-lateral__link menu-lateral__link--biblioteca">
-                <Link href="#">Sua Biblioteca</Link>
+                {isLoggedIn ? (
+                    <Link href="/biblioteca">Sua Biblioteca</Link>
+                ) : (
+                    <Link href="/login">Sua Biblioteca</Link>
+                )}
             </li>
           </ul>
         </nav>
