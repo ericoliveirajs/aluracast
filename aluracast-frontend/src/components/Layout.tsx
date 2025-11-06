@@ -66,13 +66,14 @@ const Layout: React.FC<LayoutProps> = ({ children, latestEpisode }) => {
         
         <nav>
           <ul>
-            <li className="menu-lateral__link menu-lateral__link--home ativo">
+            <li className={`menu-lateral__link menu-lateral__link--home ${router.pathname === '/' ? 'ativo' : ''}`}>
                 <Link href="/">Home</Link>
             </li>
-            <li className="menu-lateral__link menu-lateral__link--busca">
+                        <li className="menu-lateral__link menu-lateral__link--busca">
                 <Link href="#">Busca</Link>
             </li>
-            <li className="menu-lateral__link menu-lateral__link--biblioteca">
+
+            <li className={`menu-lateral__link menu-lateral__link--biblioteca ${router.pathname === '/biblioteca' ? 'ativo' : ''}`}>
                 {isLoggedIn ? (
                     <Link href="/biblioteca">Sua Biblioteca</Link>
                 ) : (
