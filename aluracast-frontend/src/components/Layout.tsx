@@ -1,25 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-// import { Episode } from '@interfaces/episode.interface'; // (Removido, não é mais necessário aqui)
-
-// --- 1. IMPORTA O HOOK DO PLAYER ---
 import { usePlayer } from '@/contexts/PlayerContext';
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000';
 
-// --- 2. REMOVE 'latestEpisode' DAS PROPS ---
 interface LayoutProps {
   children: React.ReactNode;
 }
 
-// --- 3. REMOVE 'latestEpisode' DOS PARÂMETROS ---
 const Layout: React.FC<LayoutProps> = ({ children }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const router = useRouter();
 
-  // --- 4. USA O CONTEXTO PARA OBTER O EPISÓDIO ATUAL ---
-  const { episode } = usePlayer();
+  const { episode, isPlaying, togglePlayPause } = usePlayer();
 
   useEffect(() => {
     const token = typeof window !== 'undefined' ? localStorage.getItem('token') : null;
@@ -36,7 +30,6 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
 
   return (
     <>
-      {/* --- CORREÇÕES ISSUE #21 (Acessibilidade) --- */}
       <header className="cabecalho container">
 
         <div className="cabecalho__navegacao">
@@ -74,7 +67,6 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
           </Link>
         </h1>
 
-        {/* --- ESTRUTURA CORRETA (Classes no LI) + ACESSIBILIDADE --- */}
         <nav aria-label="Navegação Principal">
           <ul>
             <li className={`menu-lateral__link menu-lateral__link--home ${router.pathname === '/' ? 'ativo' : ''}`}>
@@ -95,24 +87,6 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
           </ul>
         </nav>
 
-        {/* Este é o seu código correto (Issue P-8), com as Playlists comentadas */}
-        {/* <h3 className="menu-lateral__playlist">Playlists</h3>
-        <nav aria-label="Navegação de Playlists">
-          <ul>
-            {isLoggedIn ? (
-              <>
-                <li className="menu-lateral__link menu-lateral__link--playlist">
-                    <Link href="#">Criar Playlist</Link>
-                </li>
-                <li className="menu-lateral__link menu-lateral__link--podcasts">
-                    <Link href="#">Podcasts salvos</Link>
-                </li>
-              </>
-      _       ) : (
-              null 
-            )}
-          </ul>
-        </nav> */}
       </aside>
 
       <main className="principal container">
@@ -139,29 +113,36 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
         </ul>
       </div>
 
-      {/* --- 5. FOOTER ATUALIZADO (Lendo do Contexto) --- */}
       <footer className="rodape">
         <img
           className="rodape__imagem"
-          /* MUDANÇA: 'latestEpisode' -> 'episode' */
           src={episode ? `${API_URL}${episode.image}` : "/assets/img/hipsters-9.svg"}
-          Re-read alt={episode ? episode.title : "Player Vazio"}
+          alt={episode ? episode.title : "Player Vazio"}
         />
-        {/* MUDANÇA: 'latestEpisode' -> 'episode' */}
         <h3 className="rodape__titulo">{episode ? episode.title : "Selecione um Episódio"}</h3>
         <h4 className="rodape__subtitulo">AluraCast</h4>
 
         <button className="rodape__botao rodape__botao--voltar" aria-label="Repetir episódio">
-        <img src="/assets/img/icone-replay.svg" alt="" />
+          <img src="/assets/img/icone-replay.svg" alt="" />
         </button>
         <button className="rodape__botao rodape__botao--anterior" aria-label="Episódio anterior">
           <img src="/assets/img/icone-anterior.svg" alt="" />
         </button>
-        <button className="rodape__botao rodape__botao--play" aria-label="Tocar ou Pausar">
-          <img src="/assets/img/icone-play.svg" alt="" />
+
+        <button
+          className="rodape__botao rodape__botao--play"
+          aria-label="Tocar ou Pausar"
+          onClick={togglePlayPause}
+          disabled={!episode}
+        >
+          {isPlaying ? (
+            <img src="/assets/img/icone-pause.svg" alt="Pausar" />
+          ) : (
+            <img src="/assets/img/icone-play.svg" alt="Tocar" />
+          )}
         </button>
         <button className="rodape__botao rodape__botao--avancar" aria-label="Pular episódio">
-        <img src="/assets/img/icone-proximo.svg" alt="" />
+          <img src="/assets/img/icone-proximo.svg" alt="" />
         </button>
         <button className="rodape__botao rodape__botao--proximo" aria-label="Avançar 15 segundos">
           <img src="/assets/img/icone-avancar.svg" alt="" />
@@ -171,7 +152,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
         <div className="barra__container--reproducao">
           <div className="rodape__barra rodape__barra--reproducao">
             <div></div>
-            </div>
+          </div>
         </div>
         <span className="rodape__horario rodape__horario--termino">18:35</span>
 
@@ -179,16 +160,15 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
           <img src="/assets/img/icone-volume-down.svg" alt="" />
         </button>
         <div className="barra__container--volume">
-        <div className="rodape__barra rodape__barra--volume">
-        <div></div>
+          <div className="rodape__barra rodape__barra--volume">
+            <div></div>
           </div>
         </div>
         <button className="rodape__botao rodape__botao--volume-up" aria-label="Aumentar volume">
           <img src="/assets/img/icone-volume-up.svg" alt="" />
         </button>
       </footer>
-      {/* --- FIM DAS CORREÇÕES --- */}
-      </>
+    </>
   );
 };
 
