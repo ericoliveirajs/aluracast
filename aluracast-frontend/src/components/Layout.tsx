@@ -106,9 +106,23 @@ const Layout: React.FC<LayoutProps> = ({ children, latestEpisode }) => {
 
       <div className="navbar">
         <ul className="navbar__items">
-          <li className="navbar__item navbar__item--home">Home</li>
-          <li className="navbar__item navbar__item--busca">Busca</li>
-          <li className="navbar__item navbar__item--biblioteca">Biblioteca</li>
+          
+          <li className={`navbar__item navbar__item--home ${router.pathname === '/' ? 'ativo-mobile' : ''}`}>
+            <Link href="/">Home</Link>
+          </li>
+          
+          <li className={`navbar__item navbar__item--busca ${router.pathname === '/busca' ? 'ativo-mobile' : ''}`}>
+            <Link href="#">Busca</Link>
+          </li>
+          
+          <li className={`navbar__item navbar__item--biblioteca ${router.pathname === '/biblioteca' ? 'ativo-mobile' : ''}`}>
+            {isLoggedIn ? (
+              <Link href="/biblioteca">Biblioteca</Link>
+            ) : (
+              <Link href="/login">Biblioteca</Link>
+            )}
+          </li>
+
         </ul>
       </div>
 
