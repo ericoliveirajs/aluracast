@@ -1,12 +1,13 @@
 import { createContext, useState, useContext, ReactNode } from 'react';
-import { Episode } from '@interfaces/episode.interface';
+import { Episode } from '@interfaces/episode.interface'; 
 
 interface PlayerContextData {
-  episode: Episode | null;
-  isPlaying: boolean;
-  selectEpisode: (episode: Episode) => void
+  episode: Episode | null; 
+  isPlaying: boolean;        
+  selectEpisode: (episode: Episode) => void; 
   play: () => void;
   pause: () => void;
+  togglePlayPause: () => void;
 }
 
 export const PlayerContext = createContext({} as PlayerContextData);
@@ -21,7 +22,7 @@ export function PlayerProvider({ children }: PlayerProviderProps) {
 
   function selectEpisode(episode: Episode) {
     setEpisode(episode);
-    setIsPlaying(true);
+    setIsPlaying(true); 
   }
 
   function play() {
@@ -32,6 +33,10 @@ export function PlayerProvider({ children }: PlayerProviderProps) {
     setIsPlaying(false);
   }
 
+  function togglePlayPause() {
+    setIsPlaying(!isPlaying);
+  }
+
   return (
     <PlayerContext.Provider 
       value={{ 
@@ -39,7 +44,8 @@ export function PlayerProvider({ children }: PlayerProviderProps) {
         isPlaying, 
         selectEpisode, 
         play, 
-        pause 
+        pause,
+        togglePlayPause
       }}
     >
       {children}
