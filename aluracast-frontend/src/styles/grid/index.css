@@ -1,3 +1,5 @@
+/* index.css - Arquivo Mestre de Layout (Desktop e Mobile) */
+
 html,
 body {
     height: 100%;
@@ -5,14 +7,17 @@ body {
     padding: 0;
 }
 
+/* --- 1. LAYOUT DESKTOP (Padrão) --- */
 #__next {
     display: grid;
     min-height: 100vh;
     height: 100%;
+
     grid-template-areas:
         "aside header"
         "aside main"
         "aside footer";
+
     grid-template-columns: auto 1fr;
     grid-template-rows: auto 1fr auto;
 }
@@ -31,34 +36,43 @@ body {
 .principal {
     grid-area: main;
     overflow-y: auto;
+    /* Espaço para o player (rodape) não sobrepor o scroll */
     padding-bottom: 120px;
 }
 
 .rodape {
     grid-area: footer;
     display: grid;
+    /* Garante que o player grande apareça no Desktop */
 }
 
 .navbar {
     display: none;
+    /* Esconde a barra mobile no Desktop */
 }
 
 
+/* --- 2. LAYOUT MOBILE (Telas de 1023px ou menores) --- */
 @media only screen and (max-width: 1023px) {
 
     #__next {
+        /* Layout Mobile: Header, Conteúdo, Player e Navbar inferior */
         grid-template-areas:
             "header"
             "main"
+            "footer"
+            /* <-- MUDANÇA: O player (rodape) agora é visível */
             "navbar" !important;
 
         grid-template-columns: 1fr !important;
-        grid-template-rows: auto 1fr auto !important;
+        /* Define a altura: Header (auto), Main (1fr), Player (auto), Navbar (auto) */
+        grid-template-rows: auto 1fr auto auto !important;
     }
 
     .principal {
         grid-area: main !important;
-        padding-bottom: 70px !important;
+        /* Padding inferior para o player E o navbar não sobreporem o scroll */
+        padding-bottom: 140px !important;
     }
 
     .navbar {
@@ -72,8 +86,14 @@ body {
         padding: 1rem;
     }
 
-    .menu-lateral,
     .rodape {
+        grid-area: footer !important;
+        /* <-- MUDANÇA: Força o player a aparecer */
+        display: grid !important;
+    }
+
+    /* Esconde SOMENTE a sidebar */
+    .menu-lateral {
         display: none !important;
     }
 }
