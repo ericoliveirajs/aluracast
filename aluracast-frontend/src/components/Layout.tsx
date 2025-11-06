@@ -88,7 +88,7 @@ const Layout: React.FC<LayoutProps> = ({ children, latestEpisode }) => {
           </ul>
         </nav>
         
-        <h3 className="menu-lateral__playlist">Playlists</h3>
+        {/* <h3 className="menu-lateral__playlist">Playlists</h3>
         <nav aria-label="Navegação de Playlists">
           <ul>
             {isLoggedIn ? (
@@ -104,7 +104,7 @@ const Layout: React.FC<LayoutProps> = ({ children, latestEpisode }) => {
               null 
             )}
           </ul>
-        </nav>
+        </nav> */}
       </aside>
 
       <main className="principal container">
