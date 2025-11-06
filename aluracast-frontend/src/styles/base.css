@@ -165,8 +165,14 @@ body {
     background-color: var(--azul-escuro);
     width: 100vw;
     opacity: 0.9;
+    display: none;
 }
 .navbar__items {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    list-style: none;
+    padding: 0;
     width: 80%;
     margin: .5rem auto;
 }
@@ -196,8 +202,6 @@ body {
 
 .rodape {
     background-color: var(--azul-medio);
-    position: fixed;
-    bottom: 0;
     width: 100%;
     padding: 1rem;
 }
@@ -245,4 +249,15 @@ body {
     padding: .75rem 0;
     cursor: pointer;
     opacity: 0.9;
+}
+
+.navbar__item a {
+    display: block;
+    padding-top: 0.25rem;
+}
+
+.ativo-mobile,
+.ativo-mobile a {
+    color: var(--verde); 
+    font-weight: 700;
 }
