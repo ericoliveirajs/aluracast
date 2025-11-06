@@ -1,31 +1,72 @@
-/* @media only screen and (max-width: 1023px) {
+/* responsivo.css - Controla o layout Mobile e Tablet */
 
-    #__next {
-        grid-template-areas:
-            "main" !important;
-        grid-template-columns: 1fr !important;
-        grid-template-rows: 1fr !important;
-    }
+/* --- 1. Regras para MOBILE (Até 1023px) --- */
+@media only screen and (max-width: 1023px) {
 
-    .cabecalho,
-    .menu-lateral,
+    /* --- CORREÇÃO ISSUE P-7 (Mini-Player) --- */
+    /* Estiliza o .rodape (player) para parecer um mini-player */
     .rodape {
-        display: none !important;
+        padding: 0.5rem 0.75rem;
+        /* Padding menor (mais fino) */
+        /* Layout de 3 colunas: Imagem, Título, Botão Play */
+        grid-template-columns: auto 1fr auto !important;
+        align-items: center;
+        min-height: 60px;
+        /* Altura mínima (mais fino) */
+        border-top: 1px solid var(--azul-medio);
+        /* Separação visual do navbar */
     }
 
-    .navbar {
-        display: block !important;
+    .rodape__imagem {
+        width: 48px;
+        /* Imagem pequena */
+        height: 48px;
     }
 
+    .rodape__titulo {
+        font-size: 0.9rem;
+        /* Fonte menor */
+        padding-left: 0.75rem;
+        /* Garante que o texto não quebre em 3 linhas */
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .rodape__subtitulo {
+        display: none;
+        /* Esconde o subtítulo */
+    }
+
+    /* Esconde TODOS os botões do player, exceto o PLAY */
+    .rodape__botao--voltar,
+    .rodape__botao--anterior,
+    .rodape__botao--avancar,
+    .rodape__botao--proximo,
+    .rodape__horario,
+    .barra__container--reproducao,
+    .barra__container--volume,
+    .rodape__botao--volume-down,
+    .rodape__botao--volume-up {
+        display: none;
+    }
+
+    .rodape__botao--play {
+        display: block;
+        /* Garante que o botão Play apareça */
+        padding: 0 1rem;
+    }
+
+    /* --- FIM DA CORREÇÃO MINI-PLAYER --- */
+
+
+    /* --- CORREÇÃO ISSUE #20 (Cards Quebrados) --- */
     .container {
         padding-left: 1rem;
         padding-right: 1rem;
     }
 
-    .principal {
-        padding-bottom: 70px !important;
-    }
-
+    /* Esconde elementos desnecessários dos cards no mobile */
     .secao-horizontal .cartao__subtitulo,
     .secao-horizontal .cartao__botao,
     .secao-horizontal .cartao__player,
@@ -33,42 +74,55 @@
         display: none;
     }
 
-    .secao__cartoes {
-        row-gap: 0.5rem;
+    /* Ajusta o grid da lista de cartões (seção vertical) para 2 colunas */
+    .secao-vertical .secao__cartoes {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        /* 2 colunas */
+        row-gap: 1.5rem;
         --gap-coluna: 1rem;
     }
 
+    /* Ajusta o card horizontal (seção "Tocados agora") para 2 colunas */
     .secao-horizontal .cartao {
+        grid-template-columns: auto 1fr;
+        /* De 3 colunas para 2 */
         column-gap: 0.5rem;
     }
 
     .secao-horizontal .cartao__imagem {
+        grid-area: 1 / 1 / 3 / 2;
         height: 56px;
         width: 56px;
     }
 
     .secao-horizontal .cartao__titulo {
+        grid-area: 1 / 2 / 2 / 3;
         font: 700 14px/20px Open Sans, sans-serif;
-        grid-row: 1/4;
         align-self: center;
     }
 
+    /* CORREÇÃO PONTO 1: Ajusta o card vertical */
     .secao-vertical .cartao {
         background-color: transparent;
         padding: 0;
+        /* Garante que o texto quebre corretamente */
+        word-break: break-word;
     }
 
-    .secao-vertical .cartao:nth-child(n+3) {
-        display: none;
-    }
+    /* CORREÇÃO PONTO 1: Remove a regra que escondia os episódios */
+    /* .secao-vertical .cartao:nth-child(n+3) { display: none; } */
 
     .secao-vertical .cartao__imagem {
-        height: 156px;
+        height: auto;
+        /* Deixa a imagem redimensionar com a largura */
+        width: 100%;
     }
 }
 
-@media only screen and (min-width: 1024px) and (max-width: 1399px) {
 
+/* --- 2. Regras para TABLET (1024px até 1399px) --- */
+@media only screen and (min-width: 1024px) and (max-width: 1399px) {
     .container {
         padding-left: 1.25rem;
         padding-right: 1.25rem;
@@ -102,4 +156,4 @@
     .secao-vertical .cartao__imagem {
         height: 134px;
     }
-} */
+}
