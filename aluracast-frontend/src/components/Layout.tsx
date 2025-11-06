@@ -15,7 +15,7 @@ const Layout: React.FC<LayoutProps> = ({ children, latestEpisode }) => {
   const router = useRouter();
 
   useEffect(() => {
-    const token = localStorage.getItem('token');
+    const token = typeof window !== 'undefined' ? localStorage.getItem('token') : null;
     if (token) {
       setIsLoggedIn(true);
     }
@@ -24,18 +24,39 @@ const Layout: React.FC<LayoutProps> = ({ children, latestEpisode }) => {
   const handleLogout = () => {
     localStorage.removeItem('token');
     setIsLoggedIn(false);
-    router.push('/login');
+    router.push('/'); 
   };
 
   return (
     <>
       <header className="cabecalho container">
-        <button className="cabecalho__botao">
-          <img src="/assets/img/seta-voltar.svg" alt="Seta voltar" />
-        </button>
-        <button className="cabecalho__botao">
-          <img src="/assets/img/seta-avançar.svg" alt="Seta avancar" />
-        </button>
+        
+        <div className="cabecalho__navegacao">
+          <button className="cabecalho__botao">
+            <img src="/assets/img/seta-voltar.svg" alt="Seta voltar" />
+          </button>
+          <button className="cabecalho__botao">
+            <img src="/assets/img/seta-avançar.svg" alt="Seta avancar" />
+          </button>
+        </div>
+        
+        <div className="cabecalho__auth">
+            {isLoggedIn ? (
+                <button
+                    className="cabecalho__botao--auth menu-lateral__link"
+                    onClick={handleLogout}
+                >
+                    Sair
+                </button>
+            ) : (
+                <button
+                    className="cabecalho__botao--auth menu-lateral__link"
+                    onClick={() => router.push('/login')}
+                >
+                    Fazer Login
+                </button>
+            )}
+        </div>
       </header>
 
       <aside className="menu-lateral">
@@ -67,19 +88,9 @@ const Layout: React.FC<LayoutProps> = ({ children, latestEpisode }) => {
               <li className="menu-lateral__link menu-lateral__link--podcasts">
                   <Link href="#">Podcasts salvos</Link>
               </li>
-              <li className="menu-lateral__link">
-                <button 
-                  onClick={handleLogout} 
-                  style={{ background: 'none', border: 'none', color: 'inherit', cursor: 'pointer', padding: 0, fontSize: 'inherit' }}
-                >
-                  Sair
-                </button>
-              </li>
             </>
           ) : (
-            <li className="menu-lateral__link">
-                <Link href="/login">Fazer Login</Link>
-            </li>
+            null 
           )}
         </ul>
       </aside>
