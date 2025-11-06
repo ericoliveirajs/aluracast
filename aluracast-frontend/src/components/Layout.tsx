@@ -15,7 +15,7 @@ const Layout: React.FC<LayoutProps> = ({ children, latestEpisode }) => {
   const router = useRouter();
 
   useEffect(() => {
-    const token = localStorage.getItem('token');
+    const token = typeof window !== 'undefined' ? localStorage.getItem('token') : null;
     if (token) {
       setIsLoggedIn(true);
     }
@@ -24,18 +24,39 @@ const Layout: React.FC<LayoutProps> = ({ children, latestEpisode }) => {
   const handleLogout = () => {
     localStorage.removeItem('token');
     setIsLoggedIn(false);
-    router.push('/login');
+    router.push('/'); 
   };
 
   return (
     <>
       <header className="cabecalho container">
-        <button className="cabecalho__botao">
-          <img src="/assets/img/seta-voltar.svg" alt="Seta voltar" />
-        </button>
-        <button className="cabecalho__botao">
-          <img src="/assets/img/seta-avançar.svg" alt="Seta avancar" />
-        </button>
+        
+        <div className="cabecalho__navegacao">
+          <button className="cabecalho__botao">
+            <img src="/assets/img/seta-voltar.svg" alt="Seta voltar" />
+          </button>
+          <button className="cabecalho__botao">
+            <img src="/assets/img/seta-avançar.svg" alt="Seta avancar" />
+          </button>
+        </div>
+        
+        <div className="cabecalho__auth">
+            {isLoggedIn ? (
+                <button
+                    className="cabecalho__botao--auth menu-lateral__link"
+                    onClick={handleLogout}
+                >
+                    Sair
+                </button>
+            ) : (
+                <button
+                    className="cabecalho__botao--auth menu-lateral__link"
+                    onClick={() => router.push('/login')}
+                >
+                    Fazer Login
+                </button>
+            )}
+        </div>
       </header>
 
       <aside className="menu-lateral">
@@ -45,14 +66,19 @@ const Layout: React.FC<LayoutProps> = ({ children, latestEpisode }) => {
         
         <nav>
           <ul>
-            <li className="menu-lateral__link menu-lateral__link--home ativo">
+            <li className={`menu-lateral__link menu-lateral__link--home ${router.pathname === '/' ? 'ativo' : ''}`}>
                 <Link href="/">Home</Link>
             </li>
-            <li className="menu-lateral__link menu-lateral__link--busca">
+                        <li className="menu-lateral__link menu-lateral__link--busca">
                 <Link href="#">Busca</Link>
             </li>
-            <li className="menu-lateral__link menu-lateral__link--biblioteca">
-                <Link href="#">Sua Biblioteca</Link>
+
+            <li className={`menu-lateral__link menu-lateral__link--biblioteca ${router.pathname === '/biblioteca' ? 'ativo' : ''}`}>
+                {isLoggedIn ? (
+                    <Link href="/biblioteca">Sua Biblioteca</Link>
+                ) : (
+                    <Link href="/login">Sua Biblioteca</Link>
+                )}
             </li>
           </ul>
         </nav>
@@ -67,19 +93,9 @@ const Layout: React.FC<LayoutProps> = ({ children, latestEpisode }) => {
               <li className="menu-lateral__link menu-lateral__link--podcasts">
                   <Link href="#">Podcasts salvos</Link>
               </li>
-              <li className="menu-lateral__link">
-                <button 
-                  onClick={handleLogout} 
-                  style={{ background: 'none', border: 'none', color: 'inherit', cursor: 'pointer', padding: 0, fontSize: 'inherit' }}
-                >
-                  Sair
-                </button>
-              </li>
             </>
           ) : (
-            <li className="menu-lateral__link">
-                <Link href="/login">Fazer Login</Link>
-            </li>
+            null 
           )}
         </ul>
       </aside>
@@ -90,9 +106,23 @@ const Layout: React.FC<LayoutProps> = ({ children, latestEpisode }) => {
 
       <div className="navbar">
         <ul className="navbar__items">
-          <li className="navbar__item navbar__item--home">Home</li>
-          <li className="navbar__item navbar__item--busca">Busca</li>
-          <li className="navbar__item navbar__item--biblioteca">Biblioteca</li>
+          
+          <li className={`navbar__item navbar__item--home ${router.pathname === '/' ? 'ativo-mobile' : ''}`}>
+            <Link href="/">Home</Link>
+          </li>
+          
+          <li className={`navbar__item navbar__item--busca ${router.pathname === '/busca' ? 'ativo-mobile' : ''}`}>
+            <Link href="#">Busca</Link>
+          </li>
+          
+          <li className={`navbar__item navbar__item--biblioteca ${router.pathname === '/biblioteca' ? 'ativo-mobile' : ''}`}>
+            {isLoggedIn ? (
+              <Link href="/biblioteca">Biblioteca</Link>
+            ) : (
+              <Link href="/login">Biblioteca</Link>
+            )}
+          </li>
+
         </ul>
       </div>
 
