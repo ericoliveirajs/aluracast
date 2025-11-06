@@ -1,10 +1,7 @@
 import Head from 'next/head';
 import { GetServerSideProps } from 'next';
-// 1. Removemos o 'useState' que não é mais necessário
 import Layout from '@/components/Layout';
 import { Episode } from '@interfaces/episode.interface';
-
-// 2. Importamos o nosso hook customizado do Player
 import { usePlayer } from '@/contexts/PlayerContext';
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000';
@@ -16,14 +13,10 @@ interface HomeProps {
   error: boolean;
 }
 
-// 3. Refatoramos o EpisodeCard
-// Ele não precisa mais receber 'onSelect' como prop, pois ele mesmo acessa o contexto.
 const EpisodeCard: React.FC<{ episode: Episode }> = ({ episode }) => {
-  // 4. Pegamos a função 'selectEpisode' do contexto global
   const { selectEpisode } = usePlayer();
 
   return (
-    // 5. O onClick agora chama 'selectEpisode' diretamente
     <li className="cartao" key={episode.id} onClick={() => selectEpisode(episode)}>
 
       <img
@@ -37,7 +30,7 @@ const EpisodeCard: React.FC<{ episode: Episode }> = ({ episode }) => {
       <div className="cartao__player"></div>
 
       <button className="cartao__botao" onClick={(e) => {
-        e.stopPropagation(); // Impede que o clique no <li> seja acionado duas vezes
+        e.stopPropagation();
         selectEpisode(episode);
       }}>
       </button>
@@ -47,11 +40,6 @@ const EpisodeCard: React.FC<{ episode: Episode }> = ({ episode }) => {
 
 
 export default function Home({ hipsters, indicados, fronteiras, error }: HomeProps) {
-
-  // 6. Removemos o useState local e o handleEpisodeSelection
-  // const [playerEpisode, setPlayerEpisode] = useState<Episode | undefined>(undefined);
-  // const handleEpisodeSelection = (episode: Episode) => { ... };
-
   if (error) {
     return (
       <Layout>
@@ -66,8 +54,6 @@ export default function Home({ hipsters, indicados, fronteiras, error }: HomePro
   }
 
   return (
-    // 7. O Layout não precisa mais da prop 'latestEpisode'
-    // Ele vai ler o episódio diretamente do contexto no próximo passo
     <Layout>
       <Head>
         <title>AluraCast - Podcast de Tecnologia da Alura</title>
@@ -79,7 +65,6 @@ export default function Home({ hipsters, indicados, fronteiras, error }: HomePro
           <h2 className="secao__titulo">Hipsters Ponto Tech</h2>
           <a className="secao__link" href="#">Ver mais</a>
           <ul className="secao__cartoes">
-            {/* 8. Passamos apenas 'episode' para o EpisodeCard */}
             {(Array.isArray(hipsters) ? hipsters : []).map((episode) => (
               <EpisodeCard key={episode.id} episode={episode} />
             ))}
@@ -112,7 +97,6 @@ export default function Home({ hipsters, indicados, fronteiras, error }: HomePro
 
 export const getServerSideProps: GetServerSideProps<HomeProps> = async () => {
   try {
-    // O 'API_URL' aqui é lido do 'process.env' no lado do servidor
     const API_URL_SERVER = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000';
 
     const hipstersResponse = await fetch(`${API_URL_SERVER}/episodes/playlists/hipsters-ponto-tech`);

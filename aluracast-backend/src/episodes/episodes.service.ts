@@ -24,13 +24,10 @@ export class EpisodesService implements OnModuleInit {
         if (count === 0) {
             this.logger.warn('Banco de dados de episódios vazio. Iniciando o seeding...');
 
-            // Dados extraídos do seu HTML mockado original
             const mockEpisodes = [
-                // --- Hipsters Ponto Tech (4) ---
                 {
                     title: 'Github e nossas Funcionalidades Preferidas',
                     description: 'Hipsters Ponto Tech',
-                    // ATENÇÃO: Garanta que esta imagem exista em 'aluracast-backend/public/images/'
                     image: '/images/hipsters-3.svg',
                     link: '#',
                     date: '2025-11-06',
@@ -61,7 +58,6 @@ export class EpisodesService implements OnModuleInit {
                     playlistKey: 'hipsters-ponto-tech',
                 },
 
-                // --- Indicados para você (4) ---
                 {
                     title: 'Montando seu estúdio',
                     description: 'Layers Ponto Tech',
@@ -95,7 +91,6 @@ export class EpisodesService implements OnModuleInit {
                     playlistKey: 'indicados-para-voce',
                 },
 
-                // --- Dev sem Fronteiras (4) ---
                 {
                     title: 'Vida e Trabalho da Costa leste',
                     description: 'Dev sem Fronteiras',
@@ -136,10 +131,6 @@ export class EpisodesService implements OnModuleInit {
             this.logger.log('Banco de dados já contém dados. Seeding não é necessário.');
         }
     }
-    // --- FIM DO SEEDING ---
-
-
-    // --- O RESTO DO SEU CÓDIGO (CRUD) ---
 
     async create(createEpisodeDto: CreateEpisodeDto): Promise<Episode> {
         const newEpisode = this.episodeRepository.create(createEpisodeDto);
