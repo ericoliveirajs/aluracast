@@ -143,7 +143,6 @@ body {
 }
 
 
-/*Seção vertical*/
 .secao-vertical .cartao {
     background: rgba(196, 196, 196, 0.2);
     border-radius: 10px;
@@ -158,7 +157,6 @@ body {
     margin-top: .75rem;
 }
 
-/*Navbar*/
 .navbar {
     background-color: var(--azul-escuro);
     width: 100vw;
