@@ -3,6 +3,7 @@ import { useState, FormEvent } from 'react';
 import { useRouter } from 'next/router';
 import Link from 'next/link'; 
 import Layout from '@/components/Layout'; 
+import styles from '@/styles/Auth.module.css';
 
 export default function LoginPage() {
   const [email, setEmail] = useState('');
@@ -51,26 +52,6 @@ export default function LoginPage() {
     }
   };
 
-  const formStyle: React.CSSProperties = {
-    display: 'flex',
-    flexDirection: 'column',
-    gap: '1rem',
-    maxWidth: '400px',
-    margin: '2rem auto',
-  };
-  const inputStyle: React.CSSProperties = {
-    padding: '0.5rem',
-    fontSize: '1rem',
-  };
-  const buttonStyle: React.CSSProperties = {
-    padding: '0.75rem',
-    fontSize: '1rem',
-    backgroundColor: isLoading ? '#ccc' : '#0070f3',
-    color: 'white',
-    border: 'none',
-    cursor: isLoading ? 'not-allowed' : 'pointer',
-  };
-
   return (
     <>
       <Head>
@@ -79,27 +60,51 @@ export default function LoginPage() {
       
       <Layout>
         <main>
-          <h1>Página de Login</h1>
-          
-          <form onSubmit={handleSubmit} style={formStyle}>
-            <div>
-              <label htmlFor="email">Email</label>
-              <input id="email" type="email" value={email} onChange={(e) => setEmail(e.target.value)} required style={inputStyle} />
-            </div>
-            <div>
-              <label htmlFor="password">Senha</label>
-              <input id="password" type="password" value={password} onChange={(e) => setPassword(e.target.value)} required minLength={6} style={inputStyle} />
-            </div>
-            {error && <p style={{ color: 'red' }}>{error}</p>}
-            <button type="submit" disabled={isLoading} style={buttonStyle}>
-              {isLoading ? 'Entrando...' : 'Entrar'}
-            </button>
-          </form>
+          <div className={styles.container}>
+            <h1 className={styles.title}>Acesse sua conta</h1>
+            
+            <form onSubmit={handleSubmit} className={styles.form}>
+              <div className={styles.formGroup}>
+                <label htmlFor="email" className={styles.label}>Email</label>
+                <input 
+                  id="email" 
+                  type="email" 
+                  value={email} 
+                  onChange={(e) => setEmail(e.target.value)} 
+                  required 
+                  className={styles.inputField} 
+                />
+              </div>
+              
+              <div className={styles.formGroup}>
+                <label htmlFor="password" className={styles.label}>Senha</label>
+                <input 
+                  id="password" 
+                  type="password" 
+                  value={password} 
+                  onChange={(e) => setPassword(e.target.value)} 
+                  required 
+                  minLength={6} 
+                  className={styles.inputField} 
+                />
+              </div>
+              
+              {error && <p className={styles.error}>{error}</p>}
+              
+              <button 
+                type="submit" 
+                disabled={isLoading} 
+                className={styles.submitButton}
+              >
+                {isLoading ? 'Entrando...' : 'Entrar'}
+              </button>
+            </form>
 
-          <div style={{ textAlign: 'center', marginTop: '1rem' }}>
-            <Link href="/register">
-              Não tem uma conta? Crie uma agora
-            </Link>
+            <div className={styles.link}>
+              <Link href="/register">
+                Não tem uma conta? Crie uma agora
+              </Link>
+            </div>
           </div>
         </main>
       </Layout>
