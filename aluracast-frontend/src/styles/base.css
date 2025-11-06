@@ -160,8 +160,6 @@ body {
 
 /*Navbar*/
 .navbar {
-    position: fixed;
-    bottom: 0;
     background-color: var(--azul-escuro);
     width: 100vw;
     opacity: 0.9;
